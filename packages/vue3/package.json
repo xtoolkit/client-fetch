@@ -1,0 +1,23 @@
+{
+  "name": "@client-fetch/vue3",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtoolkit/client-fetch.git",
+    "directory": "packages/vue3"
+  },
+  "main": "dist/index.cjs.js",
+  "jsdelivr": "dist/index.global.js",
+  "unpkg": "dist/index.global.min.js",
+  "module": "dist/index.esm-bundler.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepack": "rollup -c"
+  },
+  "dependencies": {
+    "@client-fetch/core": "^1.0.0",
+    "@vue/test-utils": "^2.0.0-rc.16",
+    "vue": "^3.0.0"
+  }
+}

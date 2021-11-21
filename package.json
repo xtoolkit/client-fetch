@@ -1,0 +1,34 @@
+{
+  "name": "client-fetch",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run prepack --stream",
+    "release": "lerna publish",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.1",
+    "lerna": "^4.0.0",
+    "rollup": "^2.60.0",
+    "rollup-plugin-dts": "^4.0.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ],
+    "*.ts": [
+      "prettier --parser=typescript --write"
+    ]
+  }
+}
