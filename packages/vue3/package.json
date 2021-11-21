@@ -15,9 +15,11 @@
   "scripts": {
     "prepack": "rollup -c"
   },
+  "devDependencies": {
+    "@vue/test-utils": "^2.0.0-rc.16"
+  },
   "dependencies": {
     "@client-fetch/core": "^1.0.0",
-    "@vue/test-utils": "^2.0.0-rc.16",
     "vue": "^3.0.0"
   }
 }
