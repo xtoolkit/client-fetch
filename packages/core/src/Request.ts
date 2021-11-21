@@ -43,7 +43,11 @@ export interface RequestInput extends Partial<RequestInputHooks> {
   // origin
   url: string;
   method: RequestMethod;
-  params?: Record<string, string | number | boolean | null>;
+  params?:
+    | string
+    | string[][]
+    | Record<string, string | number | boolean | null>
+    | URLSearchParams;
   data?: any;
   headers?: Record<string, string>;
 
