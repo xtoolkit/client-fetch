@@ -17,5 +17,9 @@
   ],
   "scripts": {
     "prepack": "rollup -c"
+  },
+  "dependencies": {
+    "@client-fetch/core": "1.0.0",
+    "cross-fetch": "^3.1.4"
   }
 }

@@ -1,6 +1,7 @@
 import {Api} from '../src';
 export {gql} from '../src';
 import type {Request, ApiState, ApiOptions} from '../src';
+export type {Request};
 
 function requestBuilder(error?: Error) {
   const request: Request = input => {

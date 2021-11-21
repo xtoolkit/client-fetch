@@ -69,21 +69,19 @@ export class Xetch {
     return clone;
   }
 
-  private invokeXetchHooks(hook: keyof RequestInputHooks, data: any) {
+  private invokeXetchHooks(hook: keyof RequestInputHooks, res: any) {
     if (hook === 'onResponse') {
-      this.state.status = data.status;
-      this.state.data = data.data;
+      this.state.status = res.status;
+      this.state.data = res.data;
       this.state.loading = false;
     }
     if (hook === 'onError') {
       this.state.loading = false;
       this.state.error = true;
-      if (data.response) {
-        this.state.status = data.response.status;
-        this.state.errorMessage = data.response.message;
-      } else {
-        this.state.errorMessage = data.message;
+      if (res.status) {
+        this.state.status = res.status;
       }
+      this.state.errorMessage = res.data;
     }
   }
 

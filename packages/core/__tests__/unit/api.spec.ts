@@ -85,7 +85,7 @@ describe('Api test', () => {
   });
 
   it('error hook', async () => {
-    const api2 = apiBuilder({}, new Error('errorWork'));
+    const api2 = apiBuilder({}, {data: 'errorWork', status: 12});
     const x = api2.run('manual', {
       url: '/test',
       method: 'get'
@@ -100,12 +100,8 @@ describe('Api test', () => {
     expect(x.error).toBe(true);
     expect(x.errorMessage).toBe('errorWork');
     expect(x.data).toBe(null);
-    expect(x.status).toBe(-1);
-
-    const api3 = apiBuilder(
-      {},
-      {response: {message: 'errorWork', status: 403}}
-    );
+    expect(x.status).toBe(12);
+    const api3 = apiBuilder({}, {data: 'errorWork', status: 403});
     const {errorMessage, status} = await api3.promise('manual', {
       url: '/asd',
       method: 'get'

@@ -13,17 +13,21 @@ const request: Request = input => {
     onDownloadProgress: input.onDownloadProgress,
     onUploadProgress: input.onUploadProgress,
     timeout: input.options?.timeout,
-    withCredentials: input.options?.credentials,
-    auth: input.options?.auth,
-    validateStatus: () => true
+    withCredentials: input.options?.credentials ? true : false,
+    auth: input.options?.auth
   })
-    .then(res => {
-      input.onResponse(res);
-    })
+    .then(res => input.onResponse({data: res.data, status: res.status}))
     .catch(e => {
-      input.onError(e);
+      const o: Record<string, string> = {};
+      if (e.response) {
+        o.status = e.response.status;
+        o.data = e.response.message;
+      } else {
+        o.data = e.message;
+      }
+      input.onError(o);
       if (/^timeout/.test(e.message)) {
-        input.onTimeout(e);
+        input.onTimeout(o);
       }
     });
   return {
