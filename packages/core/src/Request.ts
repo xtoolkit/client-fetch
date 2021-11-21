@@ -50,7 +50,7 @@ export interface RequestInput extends Partial<RequestInputHooks> {
   // options
   options?: {
     timeout?: number;
-    withCredentials?: boolean;
+    credentials?: boolean;
     auth?: {
       username: string;
       password: string;
