@@ -2,5 +2,6 @@ import createConfigs from '../../config/rollup';
 
 export default createConfigs({
   path: __dirname,
-  external: ['vue']
+  external: ['vue'],
+  globals: {vue: 'Vue'}
 });
