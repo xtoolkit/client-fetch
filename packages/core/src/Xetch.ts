@@ -1,6 +1,7 @@
-import type {ApiState} from './Api';
-import type {RequestInputHooks, RequestInput, Request} from './Request';
+import {State} from './State';
 import {cloneValue, deepMergeObject} from './utils';
+import type {StateBuilder} from './State';
+import type {RequestInputHooks, RequestInput, Request} from './Request';
 
 interface ResponseTools {
   update: (input: RequestInput) => Promise<Response>;
@@ -40,15 +41,15 @@ export class Xetch {
     onRequest: [] as RequestInputHooks['onRequest'][],
     onError: [] as RequestInputHooks['onError'][]
   };
-  private _state: any;
+  private _state: State<Response>;
   private config: RequestInput;
 
   constructor(
     private request: Request,
-    private stateManager: ApiState,
+    StateBuilder: StateBuilder,
     requestInputs: XetchRequestInputs
   ) {
-    this._state = stateManager.createState(Xetch.createRes());
+    this._state = new StateBuilder(Xetch.createRes());
     this.config = deepMergeObject(
       deepMergeObject(
         this.extractHooks(requestInputs.default),
@@ -93,6 +94,9 @@ export class Xetch {
           data
         ]);
       });
+      if (hook !== 'onRequest') {
+        this._state.update();
+      }
     };
   }
 
@@ -117,7 +121,7 @@ export class Xetch {
   }
 
   get state() {
-    return this.stateManager.getState<Response>(this._state);
+    return this._state.getValue();
   }
 
   /* istanbul ignore next */

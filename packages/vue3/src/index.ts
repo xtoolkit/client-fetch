@@ -1,5 +1,5 @@
 import {Api} from '@client-fetch/core';
-import {stateManager} from './state';
+import {VueState} from './State';
 import {Mixin} from './mixin';
 export {useApi} from './inject/api';
 export {useRunApi} from './inject/run';
@@ -13,7 +13,7 @@ export const install: Plugin = (
   request: Request,
   options?: ApiOptions
 ) => {
-  const api = new Api<App>(options || {}, stateManager, request);
+  const api = new Api<App>(options || {}, VueState, request);
   api.setApp(app);
   app.provide('client-fetch', api);
   app.mixin(Mixin);

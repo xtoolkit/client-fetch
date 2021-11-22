@@ -1,13 +1,9 @@
 import type {Request, RequestInput} from './Request';
+import type {StateBuilder} from './State';
 import {method as manualMethod} from './methods/manual';
 import {method as graphqlMethod, ApiInputGraphQL} from './methods/graphql';
 import {Xetch, Response} from './Xetch';
 import {cloneValue} from './utils';
-
-export interface ApiState {
-  createState<T>(data: T): any;
-  getState<T>(data: any): T;
-}
 
 export interface ApiOptions {
   default?: Partial<RequestInput>;
@@ -29,7 +25,7 @@ export class Api<APP = any> {
 
   constructor(
     private options: ApiOptions,
-    private stateManager: ApiState,
+    private stateBuilder: StateBuilder,
     private request: Request
   ) {}
 
@@ -68,7 +64,7 @@ export class Api<APP = any> {
 
   private execute(mode: ApiExecuteMode, method: any, input: any) {
     const render = this.renderApiInput(method, input);
-    const xetch = new Xetch(this.request, this.stateManager, {
+    const xetch = new Xetch(this.request, this.stateBuilder, {
       default: this.options.default || {},
       method: render.method,
       input: render.input
