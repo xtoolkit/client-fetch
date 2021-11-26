@@ -41,6 +41,9 @@ export const Mixin: ComponentOptions = {
     for (const item in this._api) {
       const api = this._api[item];
       const config = typeof api === 'function' ? api.apply(this) : api;
+      if (Object.keys(config).length === 0) {
+        continue;
+      }
       this[item] = this.$api.run(
         config.manual ? 'manual' : config.method,
         config
