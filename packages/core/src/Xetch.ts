@@ -1,6 +1,4 @@
-import {State} from './State';
 import {cloneValue, deepMergeObject} from './utils';
-import type {StateBuilder} from './State';
 import type {RequestInputHooks, RequestInput, Request} from './Request';
 
 interface ResponseTools {
@@ -39,17 +37,14 @@ export class Xetch {
     onCancel: [] as RequestInputHooks['onCancel'][],
     onTimeout: [] as RequestInputHooks['onTimeout'][],
     onRequest: [] as RequestInputHooks['onRequest'][],
-    onError: [] as RequestInputHooks['onError'][]
+    onError: [] as RequestInputHooks['onError'][],
+    onEach: [] as Required<RequestInputHooks>['onEach'][]
   };
-  private _state: State<Response>;
+  private state: Response;
   private config: RequestInput;
 
-  constructor(
-    private request: Request,
-    StateBuilder: StateBuilder,
-    requestInputs: XetchRequestInputs
-  ) {
-    this._state = new StateBuilder(Xetch.createRes());
+  constructor(private request: Request, requestInputs: XetchRequestInputs) {
+    this.state = Xetch.createRes();
     this.config = deepMergeObject(
       deepMergeObject(
         this.extractHooks(requestInputs.default),
@@ -86,6 +81,7 @@ export class Xetch {
     }
   }
 
+  /* istanbul ignore next */
   private invokeHook(hook: keyof RequestInputHooks) {
     return (data: any) => {
       this.invokeXetchHooks(hook, data);
@@ -94,13 +90,13 @@ export class Xetch {
           data
         ]);
       });
-      if (hook !== 'onRequest') {
-        this._state.update();
-      }
+      this.hooks.onEach.forEach(fn => {
+        fn.apply(this.state);
+      });
     };
   }
 
-  gate(isPromise: boolean) {
+  gate() {
     if (this.state.data === null && this.config.options?.default) {
       this.state.data = this.config.options.default;
     }
@@ -115,13 +111,7 @@ export class Xetch {
       onTimeout: this.invokeHook('onTimeout')
     });
     this.state.cancel = cancel;
-    return isPromise
-      ? (gate.then(() => this.state) as unknown as Promise<Response>)
-      : this.state;
-  }
-
-  get state() {
-    return this._state.getValue();
+    return gate.then(() => this.state);
   }
 
   /* istanbul ignore next */

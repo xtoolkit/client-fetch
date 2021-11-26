@@ -1,5 +1,7 @@
-import {inject} from 'vue';
 import {Api} from '@client-fetch/core';
+import {useApi} from './inject/api';
+import {useRunApi} from './inject/run';
+import {usePromiseApi} from './inject/promise';
 import type {ComponentOptions} from 'vue';
 import type {ApiObjectInput, Response} from '@client-fetch/core';
 
@@ -14,7 +16,13 @@ export const Mixin: ComponentOptions = {
   beforeCreate() {
     this._api = this.$options.api || false;
     delete this.$options.api;
-    if (this._api) this.$api = inject('client-fetch');
+    if (this._api) {
+      this.$api = {
+        execute: useApi().execute,
+        run: useRunApi,
+        promise: usePromiseApi
+      };
+    }
   },
   data() {
     if (!this._api) {

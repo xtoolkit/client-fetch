@@ -12,31 +12,17 @@ type RequestMethod =
   | 'link'
   | 'unlink';
 
-type RequestHookCallbackWithThis<THIS = Response> = (
-  this: THIS,
-  data?: any
-) => void;
+type RequestHookCallback<THIS> = (this: THIS, data?: any) => void;
 
-type RequestHookCallback = (data?: any) => void;
-
-export interface RequestInputHooks {
-  onUploadProgress: RequestHookCallbackWithThis;
-  onDownloadProgress: RequestHookCallbackWithThis;
-  onResponse: RequestHookCallbackWithThis;
-  onError: RequestHookCallbackWithThis;
-  onRequest: RequestHookCallbackWithThis<RequestInput>;
-  onCancel: RequestHookCallbackWithThis;
-  onTimeout: RequestHookCallbackWithThis;
-}
-
-interface RequestHooks {
-  onUploadProgress: RequestHookCallback;
-  onDownloadProgress: RequestHookCallback;
-  onResponse: RequestHookCallback;
-  onError: RequestHookCallback;
-  onRequest: RequestHookCallback;
-  onCancel: RequestHookCallback;
-  onTimeout: RequestHookCallback;
+export interface RequestInputHooks<THIS = Response> {
+  onUploadProgress: RequestHookCallback<THIS>;
+  onDownloadProgress: RequestHookCallback<THIS>;
+  onResponse: RequestHookCallback<THIS>;
+  onError: RequestHookCallback<THIS>;
+  onRequest: RequestHookCallback<THIS extends Response ? RequestInput : THIS>;
+  onCancel: RequestHookCallback<THIS>;
+  onTimeout: RequestHookCallback<THIS>;
+  onEach?: RequestHookCallback<THIS>;
 }
 
 export interface RequestInput extends Partial<RequestInputHooks> {
@@ -67,5 +53,5 @@ interface CreateRequest {
 }
 
 export type Request = (
-  input: Omit<RequestInput, keyof RequestInputHooks> & RequestHooks
+  input: Omit<RequestInput & RequestInputHooks<any>, 'onEach'>
 ) => CreateRequest;
