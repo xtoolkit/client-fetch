@@ -16,7 +16,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "rollup -c"
+    "build": "rollup -c"
   },
   "dependencies": {
     "@client-fetch/core": "1.0.0",

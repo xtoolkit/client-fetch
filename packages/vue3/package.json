@@ -13,7 +13,7 @@
   "module": "dist/index.esm-bundler.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepack": "rollup -c"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-rc.16"

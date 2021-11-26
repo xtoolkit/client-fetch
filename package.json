@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "lerna bootstrap",
-    "build": "lerna run prepack --stream",
+    "build": "lerna run build --stream",
     "release": "lerna publish",
     "test": "jest",
     "test:coverage": "jest --coverage"
