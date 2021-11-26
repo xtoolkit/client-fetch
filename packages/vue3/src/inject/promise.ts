@@ -1,6 +1,7 @@
-import {Api, ExecutesArgs, ExecuteMethod} from '@client-fetch/core';
+import {Api} from '@client-fetch/core';
 import {ref, unref} from 'vue';
 import {useApi} from './api';
+import type {ExecutesArgs, ExecuteMethod} from '@client-fetch/core';
 
 export function usePromiseApi<Fn extends ExecuteMethod | undefined = undefined>(
   ...[method, input]: ExecutesArgs<Fn>
