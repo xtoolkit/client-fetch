@@ -15,11 +15,14 @@
   "scripts": {
     "build": "rollup -c"
   },
+  "peerDependencies": {
+    "react": ">=16.8"
+  },
   "devDependencies": {
-    "@types/react": "^17.0.37"
+    "@types/react": "^17.0.37",
+    "react-test-renderer": "^17.0.2"
   },
   "dependencies": {
-    "@client-fetch/core": "^1.0.0",
-    "react": "^17.0.2"
+    "@client-fetch/core": "^1.0.0"
   }
 }
