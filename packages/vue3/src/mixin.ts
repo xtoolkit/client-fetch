@@ -9,7 +9,7 @@ type ApiObjectInputBindComponent = (this: ComponentOptions) => ApiObjectInput;
 
 export type _ApiObjectInput = Record<
   string,
-  ApiObjectInput | ApiObjectInputBindComponent
+  ApiObjectInput | ApiObjectInputBindComponent | {}
 >;
 
 export const Mixin: ComponentOptions = {
