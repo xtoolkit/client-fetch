@@ -20,7 +20,8 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.37",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "react": "^17.0.2"
   },
   "dependencies": {
     "@client-fetch/core": "^1.0.0"
