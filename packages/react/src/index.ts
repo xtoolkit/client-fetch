@@ -69,7 +69,6 @@ export function withApi(component: any) {
     return origin;
   };
 
-  let singleMount = false;
   const onMount = component.prototype.componentDidMount;
   ApiComponent.prototype = component.prototype;
 
@@ -77,10 +76,6 @@ export function withApi(component: any) {
     const $api = useApi();
 
     ApiComponent.prototype.componentDidMount = function () {
-      if (singleMount) {
-        return false;
-      }
-      singleMount = true;
       const self = this;
       onMount?.apply(self);
       if (!self.api) {

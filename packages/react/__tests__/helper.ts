@@ -1,9 +1,13 @@
 import type {Request} from '@client-fetch/core';
-import {install, useRunApi, withApi} from '../src/index';
+import {install, useApi, useRunApi, withApi} from '../src/index';
 
 export {install, useRunApi, withApi};
 
-const request: Request = input => {
+try {
+  useApi();
+} catch (error) {}
+
+export const request: Request = input => {
   input.onRequest(input);
   const gate = new Promise(res =>
     setTimeout(() => {
@@ -21,4 +25,4 @@ const request: Request = input => {
   };
 };
 
-install({request});
+install({request, app: {name: 'bar'}});
