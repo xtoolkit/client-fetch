@@ -58,7 +58,6 @@ export function useRunApi<Fn extends ExecuteMethod | undefined = undefined>(
 export function withApi(component: any) {
   const ApiComponent = function (params: any) {
     const origin = new component(params);
-    console.log('ApiComponent constructor');
     if (origin.api) {
       if (!origin.state) {
         origin.state = {};
@@ -78,7 +77,6 @@ export function withApi(component: any) {
     const $api = useApi();
 
     ApiComponent.prototype.componentDidMount = function () {
-      console.log('ApiComponent componentDidMount');
       if (singleMount) {
         return false;
       }
@@ -96,7 +94,7 @@ export function withApi(component: any) {
         }
         const onEach = function (this: any, data: any) {
           config?.onEach?.apply(this);
-          self.setState({[item]: {...(this.data ? this.data : data)}});
+          self.setState({[item]: {...this}});
         };
         $api.execute(config.manual ? 'manual' : config.method, {
           ...config,

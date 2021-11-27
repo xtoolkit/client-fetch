@@ -2,5 +2,9 @@ import {Api} from '@client-fetch/core';
 import {inject} from 'vue';
 
 export function useApi() {
-  return inject<Api>('client-fetch')!!;
+  const api = inject<Api>('client-fetch');
+  if (!api) {
+    throw new Error('Please first install Api');
+  }
+  return api;
 }
