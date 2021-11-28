@@ -1,8 +1,7 @@
 import type {Request, RequestInput} from './Request';
-import type {StateBuilder} from './State';
 import {method as manualMethod} from './methods/manual';
 import {method as graphqlMethod, ApiInputGraphQL} from './methods/graphql';
-import {Xetch, Response} from './Xetch';
+import {Xetch} from './Xetch';
 import {cloneValue} from './utils';
 
 export interface ApiOptions {
@@ -12,22 +11,25 @@ export interface ApiOptions {
   };
 }
 
-type ApiExecuteMode = 'run' | 'promise';
-
 interface ApiInputOnly<Input = any>
   extends Omit<RequestInput, 'method' | 'url'> {
   input?: Input;
 }
 
+export type ExecuteMethod = (args: any) => RequestInput;
+
+export type ExecutesArgs<Fn extends ExecuteMethod | undefined = undefined> =
+  Fn extends ExecuteMethod
+    ? [method: Fn, input?: ApiInputOnly<Parameters<Fn>[0]>]
+    :
+        | [method: 'manual', input: RequestInput]
+        | [method: 'graphql' | `graphql:${string}`, input: ApiInputGraphQL];
+
 export class Api<APP = any> {
   private app?: APP;
   initApp = false;
 
-  constructor(
-    private options: ApiOptions,
-    private stateBuilder: StateBuilder,
-    private request: Request
-  ) {}
+  constructor(private options: ApiOptions, private request: Request) {}
 
   setApp(app: APP) {
     if (!this.initApp) {
@@ -62,40 +64,15 @@ export class Api<APP = any> {
     };
   }
 
-  private execute(mode: ApiExecuteMode, method: any, input: any) {
+  execute<Fn extends ExecuteMethod | undefined = undefined>(
+    ...[method, input]: ExecutesArgs<Fn>
+  ) {
     const render = this.renderApiInput(method, input);
-    const xetch = new Xetch(this.request, this.stateBuilder, {
+    return new Xetch(this.request, {
       default: this.options.default || {},
       method: render.method,
       input: render.input
-    });
-    return xetch.gate(mode === 'promise');
-  }
-
-  run<Fn extends (args: any) => any>(
-    method: Fn,
-    input?: ApiInputOnly<Parameters<Fn>[0]>
-  ): Response;
-  run(method: 'manual', input: RequestInput): Response;
-  run(
-    method: 'graphql' | `graphql:${string}`,
-    input: ApiInputGraphQL
-  ): Response;
-  run(method: any, input: any) {
-    return this.execute('run', method, input) as Response;
-  }
-
-  promise<Fn extends (args: any) => any>(
-    method: Fn,
-    input?: ApiInputOnly<Parameters<Fn>[0]>
-  ): Promise<Response>;
-  promise(method: 'manual', input: RequestInput): Promise<Response>;
-  promise(
-    method: 'graphql' | `graphql:${string}`,
-    input: ApiInputGraphQL
-  ): Promise<Response>;
-  promise(method: any, input: any) {
-    return this.execute('promise', method, input) as Promise<Response>;
+    }).gate();
   }
 
   /* istanbul ignore next */

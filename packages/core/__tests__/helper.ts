@@ -1,4 +1,4 @@
-import {Api, State} from '../src';
+import {Api} from '../src';
 export {gql} from '../src';
 import type {Request, ApiOptions} from '../src';
 export type {Request};
@@ -30,20 +30,8 @@ const app = {
   name: 'client-fetch'
 };
 
-class TestState<T> extends State<T> {
-  constructor(private data: T) {
-    super();
-  }
-
-  getValue() {
-    return this.data;
-  }
-
-  update() {}
-}
-
 export function apiBuilder(options: ApiOptions, error?: any) {
-  const api = new Api<typeof app>(options, TestState, requestBuilder(error));
+  const api = new Api<typeof app>(options, requestBuilder(error));
   api.setApp(app);
   return api;
 }

@@ -1,6 +1,6 @@
 import {plugin} from '../helper';
-import BasicComponent from './option/Basic';
-import BindComponent from './option/Bind';
+import BasicComponent from './components/Basic';
+import BindComponent from './components/Bind';
 
 describe('option api components test', () => {
   it('basic', async () => {

@@ -16,6 +16,6 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "rollup -c"
+    "build": "rollup -c"
   }
 }

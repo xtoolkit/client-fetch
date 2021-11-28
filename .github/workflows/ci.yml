@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install && yarn lerna bootstrap
 
       - name: Build packages
         run: yarn build
@@ -34,3 +34,9 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ./packages/*/dist

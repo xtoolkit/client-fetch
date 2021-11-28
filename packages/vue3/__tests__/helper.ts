@@ -1,7 +1,11 @@
 import type {ApiOptions, Request} from '@client-fetch/core';
 import {mount} from '@vue/test-utils';
-import {install} from '../src';
-export {useApi, usePromiseApi, useRunApi} from '../src';
+import {useApi, install} from '../src';
+export {usePromiseApi, useRunApi} from '../src';
+
+try {
+  useApi();
+} catch (error) {}
 
 const request: Request = input => {
   input.onRequest(input);

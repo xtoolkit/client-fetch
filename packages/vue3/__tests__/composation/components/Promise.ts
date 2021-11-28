@@ -7,7 +7,8 @@ export default defineComponent({
     const title = ref<string | null>('notWork');
     usePromiseApi('manual', {
       url: '/',
-      method: 'get'
+      method: 'get',
+      onEach() {}
     }).then(res => {
       title.value = res.data;
     });

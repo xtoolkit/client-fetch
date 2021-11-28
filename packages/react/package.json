@@ -1,11 +1,11 @@
 {
-  "name": "@client-fetch/vue3",
+  "name": "@client-fetch/react",
   "version": "1.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/xtoolkit/client-fetch.git",
-    "directory": "packages/vue3"
+    "directory": "packages/react"
   },
   "main": "dist/index.cjs.js",
   "jsdelivr": "dist/index.global.js",
@@ -16,11 +16,13 @@
     "build": "rollup -c"
   },
   "peerDependencies": {
-    "vue": ">=3.0.0"
+    "react": ">=16.8"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-rc.16",
-    "vue": "^3.0.0"
+    "@types/react": "^17.0.37",
+    "@types/react-test-renderer": "^17.0.1",
+    "react-test-renderer": "^17.0.2",
+    "react": "^17.0.2"
   },
   "dependencies": {
     "@client-fetch/core": "^1.0.0"
