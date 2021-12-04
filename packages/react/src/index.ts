@@ -55,9 +55,13 @@ export function useRunApi<Fn extends ExecuteMethod | undefined = undefined>(
   return state;
 }
 
-export function withApi(component: any) {
-  const ApiComponent = function (params: any) {
-    const origin = new component(params);
+export function withApi<T extends {new (...args: any[]): React.Component}>(
+  component: T
+) {
+  const ApiComponent = function (
+    props: ConstructorParameters<typeof component>[0]
+  ) {
+    const origin = new component(props) as any;
     if (origin.api) {
       if (!origin.state) {
         origin.state = {};
@@ -72,7 +76,9 @@ export function withApi(component: any) {
   const onMount = component.prototype.componentDidMount;
   ApiComponent.prototype = component.prototype;
 
-  function ComponentWithApiContextProp(props: any) {
+  function ComponentWithApiContextProp(
+    props: ConstructorParameters<typeof component>[0]
+  ) {
     const $api = useApi();
 
     ApiComponent.prototype.componentDidMount = function () {
