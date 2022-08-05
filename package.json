@@ -10,7 +10,7 @@
     "test:coverage": "jest --coverage"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "22.0.1",
+    "@rollup/plugin-commonjs": "22.0.2",
     "@rollup/plugin-replace": "4.0.0",
     "@types/jest": "27.5.2",
     "jest": "27.5.1",
