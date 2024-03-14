@@ -19,7 +19,7 @@
     "vue": ">=3.0.0"
   },
   "devDependencies": {
-    "@vue/test-utils": "2.0.2",
+    "@vue/test-utils": "2.4.5",
     "vue": "3.2.37"
   },
   "dependencies": {
